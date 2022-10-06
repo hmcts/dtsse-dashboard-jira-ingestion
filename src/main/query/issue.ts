@@ -11,10 +11,33 @@ const jira = new JiraApi({
   bearer: config.jiraToken,
 });
 
+const getIssues = async (project: string, startAt = 0): Promise<JiraApi.IssueObject[]> => {
+  const results = await jira.searchJira(`project = "${project}"`, { startAt });
+
+  if (results.startAt + results.maxResults < results.total) {
+    return [...results.issues, ...(await getIssues(project, startAt + results.maxResults))];
+  } else {
+    return results.issues;
+  }
+};
+
 const run = async () => {
-  const projects = await jira.listProjects();
-  console.log(projects);
-  process.exit(0);
+  const issues = await Promise.all(['NFDIV'].map(p => getIssues(p)));
+
+  return issues.flat().map(issue => ({
+    id: issue.key,
+    project_id: issue.fields.project.key,
+    title: issue.fields.summary,
+    type: issue.fields.issuetype.name,
+    description: issue.fields.description,
+    labels: issue.fields.labels.map((l: string) => l.toLowerCase()).join(','),
+    status: issue.fields.status.name,
+    status_category: issue.fields.status.statusCategory.name,
+    creator: issue.fields.creator.name,
+    assignee: issue.fields.assignee?.name,
+    created_at: issue.fields.created,
+    updated_at: issue.fields.updated,
+  }));
 };
 
 export default run;
