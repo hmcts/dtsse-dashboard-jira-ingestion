@@ -22,7 +22,7 @@ const getIssues = async (project: string, startAt = 0): Promise<JiraApi.IssueObj
 };
 
 const run = async () => {
-  const issues = await Promise.all(['NFDIV'].map(p => getIssues(p)));
+  const issues = await Promise.all(['NFDIV', 'ADOP', 'AM'].map(p => getIssues(p)));
 
   return issues.flat().map(issue => ({
     id: issue.key,
