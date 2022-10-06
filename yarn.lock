@@ -879,7 +879,7 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jira-client@^7.1.4":
+"@types/jira-client@7.1.4":
   version "7.1.4"
   resolved "https://registry.yarnpkg.com/@types/jira-client/-/jira-client-7.1.4.tgz#052eb67e7932aa75c9cc6cd9fbfd83c8b71c8f6e"
   integrity sha512-ICnrqjMWK2hvwvlpCMma+9vdxulgC1M+ppnO2kpLbkhfITEv6BrA3+eaVPiBknln5jTdIv1dVwiDPV/e1H2Aug==
@@ -3145,7 +3145,7 @@ jest@29.1.1:
     import-local "^3.0.2"
     jest-cli "^29.1.1"
 
-jira-client@^8.1.0:
+jira-client@8.1.0:
   version "8.1.0"
   resolved "https://registry.yarnpkg.com/jira-client/-/jira-client-8.1.0.tgz#32352e204e64dedabfda753510f58ae38ec47745"
   integrity sha512-lAQ0K0biclztrNG18SVWi0oBuSQtjJj1SnygrOA9B9x2T4nPp4Y89ESfQFfAacT8y+sIneEjs/mTeyl6lHybfQ==
