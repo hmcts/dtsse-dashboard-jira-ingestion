@@ -1,0 +1,18 @@
+#!groovy
+
+@Library("Infrastructure")
+
+def type = "nodejs"
+def product = "dtsse"
+def component = "dashboard-jira-ingestion"
+
+def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
+
+withPipeline(type, product, component) {
+  nonServiceApp()
+
+  after('build') {
+    yarnBuilder.yarn('build')
+  }
+
+}

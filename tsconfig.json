@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "outDir": "./src/",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "ES2022",
+    "useUnknownInCatchVariables": false,
+    "strict": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "lib": ["es2021"],
+    "baseUrl": "src/main"
+  },
+  "exclude": ["**/*.test.ts"]
+}
