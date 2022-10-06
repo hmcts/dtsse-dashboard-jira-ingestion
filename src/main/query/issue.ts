@@ -11,20 +11,24 @@ const jira = new JiraApi({
   bearer: config.jiraToken,
 });
 
-const getIssues = async (project: string, startAt = 0): Promise<JiraApi.IssueObject[]> => {
-  const results = await jira.searchJira(`project = "${project}"`, { startAt });
+const getIssues = async (startAt = 0): Promise<JiraApi.IssueObject[]> => {
+  const results = await jira.searchJira(`updated >= -4h`, { startAt });
 
   if (results.startAt + results.maxResults < results.total) {
-    return [...results.issues, ...(await getIssues(project, startAt + results.maxResults))];
+    return [...results.issues, ...(await getIssues(startAt + results.maxResults))];
   } else {
     return results.issues;
   }
 };
 
 const run = async () => {
-  const issues = await Promise.all(['NFDIV', 'ADOP', 'AM'].map(p => getIssues(p)));
+  const issues = await getIssues();
+  const uniqueIssues = issues.reduce((acc, issue) => {
+    acc[issue.key] = issue;
+    return acc;
+  }, {} as Record<string, JiraApi.IssueObject>);
 
-  return issues.flat().map(issue => ({
+  return Object.values(uniqueIssues).map(issue => ({
     id: issue.key,
     project_id: issue.fields.project.key,
     title: issue.fields.summary,
